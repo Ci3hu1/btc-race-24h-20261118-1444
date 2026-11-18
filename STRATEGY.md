@@ -36,9 +36,14 @@ one setup, one round trip, then done. The fallback exists only so the bot
 still trades (and therefore still counts) on a window where no washout
 setup appears.
 
-Expected dev result (design target, verified by `grade-local`): net PnL
-about +$5.51 on exactly 1 trade -- buy at bar 73 (~$63,870), sell at bar
-86 (~$64,273, take-profit), max drawdown about -0.23%.
+Verified dev result (local replay driving the packed `main.py` over the
+bars-replay/v1 protocol against the kit's frozen dev window, with the fill
+math ported exactly from the kit's harness source `sim/bars/engine.ts` --
+`grade-local --driver process` cannot run a Python bot on this machine, it
+needs Docker, which is not installed here): net PnL **+$5.51** on exactly
+1 trade -- buy decided bar 72, filled bar 73 @ $63,870.54; sell decided bar
+85 on the +0.80% take-profit (close $64,393.78), filled bar 86 @ $64,273.76;
+max drawdown -0.23%. Two runs produce byte-identical action logs.
 
 ## Rules (exact; these are the parameters in `bot.py`)
 
